@@ -1,105 +1,690 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Formation Continue – Nouveau contact</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formations courtes</title>
+
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="app">
-  <header>
-    <div>
-      <div class="eyebrow">FORMATION CONTINUE</div>
-      <h1>Nouveau contact</h1>
-      <p>Quelques choix, dans l’ordre. Le logiciel adapte la suite automatiquement.</p>
+
+<div id="app">
+
+  <!-- =========================
+       EN-TETE
+  ========================== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🎓</div>
+      <div>
+        <div class="brand-small">CFA NORD OUEST AVEYRON</div>
+        <div class="brand-title">Formations courtes</div>
+      </div>
     </div>
-    <div class="progress"><span id="progressBar"></span></div>
+
+    <button class="home-btn" onclick="showPage('home')">
+      🏠 Accueil
+    </button>
   </header>
 
-  <main>
-    <section class="step active" data-step="1">
-      <div class="stepno">1</div>
-      <h2>Qui a pris le contact ?</h2>
-      <div id="contactChoices" class="cards people"></div>
-      <div class="nav"><button class="next" disabled>Continuer →</button></div>
+
+  <!-- =========================
+       ACCUEIL
+  ========================== -->
+  <main id="page-home" class="page active-page">
+
+    <section class="welcome">
+      <div class="hello">Bonjour 👋</div>
+      <h1>Formations courtes</h1>
+      <p>Que voulez-vous faire ?</p>
     </section>
 
-    <section class="step" data-step="2">
-      <div class="stepno">2</div>
-      <h2>Quelle catégorie ?</h2>
-      <div id="domainChoices" class="cards domains"></div>
-      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
-    </section>
+    <section class="dashboard-alerts">
 
-    <section class="step" data-step="3">
-      <div class="stepno">3</div>
-      <h2>Quelle formation ?</h2>
-      <div id="formationChoices" class="cards list"></div>
-      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
-    </section>
-
-    <section class="step" data-step="4">
-      <div class="stepno">4</div>
-      <h2>Quelle date / session ?</h2>
-      <div id="sessionChoices" class="cards sessions"></div>
-      <label class="field hidden" id="otherDateWrap">Autre date souhaitée
-        <input type="date" id="otherDate">
-      </label>
-      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
-    </section>
-
-    <section class="step" data-step="5">
-      <div class="stepno">5</div>
-      <h2>Qui nous contacte ?</h2>
-      <div id="typeChoices" class="cards two"></div>
-      <div id="identity" class="formgrid">
-        <label>Nom *<input id="nom"></label>
-        <label>Prénom<input id="prenom"></label>
-        <label class="company">Entreprise / organisme<input id="entreprise"></label>
-        <label class="company">Démarche pour des salariés ?
-          <select id="pourSalaries"><option></option><option>Oui</option><option>Non</option></select>
-        </label>
-        <label>Téléphone<input id="telephone"></label>
-        <label>E-mail<input id="email" type="email"></label>
-        <label>Adresse<input id="adresse"></label>
-        <label>Code postal<input id="cp"></label>
-        <label>Ville<input id="ville"></label>
-        <label>Date de naissance<input id="naissance" type="date"></label>
+      <div class="mini-stat">
+        <span class="mini-icon">🆕</span>
+        <div>
+          <strong id="homeNewCount">0</strong>
+          <span>Nouveaux contacts</span>
+        </div>
       </div>
-      <div class="nav"><button class="back">← Retour</button><button class="next">Continuer →</button></div>
+
+      <div class="mini-stat alert">
+        <span class="mini-icon">⏰</span>
+        <div>
+          <strong id="homeLateCount">0</strong>
+          <span>Relances en retard</span>
+        </div>
+      </div>
+
+      <div class="mini-stat">
+        <span class="mini-icon">✅</span>
+        <div>
+          <strong id="homeRegisteredCount">0</strong>
+          <span>Inscrits</span>
+        </div>
+      </div>
+
     </section>
 
-    <section class="step" data-step="6">
-      <div class="stepno">6</div>
-      <h2>Finaliser la demande</h2>
-      <div class="formgrid">
-        <label>Profil / situation
-          <select id="profil"><option></option><option>Demandeur d'emploi</option><option>Salarié</option><option>Agriculteur</option><option>Entreprise</option><option>Collectivité territoriale</option><option>Autre</option></select>
-        </label>
-        <label>Financement envisagé
-          <select id="financement"><option>À déterminer</option><option>Entreprise / employeur</option><option>OCAPIAT / OPCO</option><option>CPF</option><option>France Travail</option><option>Autofinancement</option><option>Collectivité / autre financeur</option><option>Autre</option></select>
-        </label>
-        <label>Chargé d'ingénierie
-          <select id="charge"><option></option><option>Bruno</option><option>Sophie</option><option>Claire</option><option>Stéphanie</option></select>
-        </label>
-        <label>Statut
-          <select id="statut"><option>Nouveau</option><option>À rappeler</option><option>En attente</option><option>Dossier en cours</option><option>Inscrit</option><option>Abandon</option><option>Formation réalisée</option></select>
-        </label>
-        <label>Date de prochaine relance<input id="relance" type="date"></label>
-        <label>Inscription
-          <select id="inscription"><option>En attente</option><option>Oui</option><option>Non</option></select>
-        </label>
-        <label class="wide">Besoin spécifique / hors catalogue<textarea id="besoin"></textarea></label>
-        <label class="wide">Commentaires<textarea id="commentaires"></textarea></label>
-      </div>
-      <div class="summary" id="summary"></div>
-      <div class="nav"><button class="back">← Retour</button><button id="save" class="save">✓ Enregistrer la demande</button></div>
-      <div id="message"></div>
+
+    <section class="menu-grid">
+
+      <button class="menu-card purple" onclick="startNewContact()">
+        <span class="menu-icon">➕</span>
+        <span class="menu-title">Nouveau contact</span>
+        <span class="menu-text">
+          Enregistrer une nouvelle demande
+        </span>
+      </button>
+
+      <button class="menu-card blue" onclick="openContacts()">
+        <span class="menu-icon">📋</span>
+        <span class="menu-title">Suivi des contacts</span>
+        <span class="menu-text">
+          Rechercher et suivre tous les dossiers
+        </span>
+      </button>
+
+      <button class="menu-card coral" onclick="openRelances()">
+        <span class="menu-icon">🔔</span>
+        <span class="menu-title">Mes relances</span>
+        <span class="menu-text">
+          Voir qui doit être recontacté
+        </span>
+        <span id="relanceBadge" class="notification-badge hidden">
+          0
+        </span>
+      </button>
+
+      <button class="menu-card green" onclick="openSessions()">
+        <span class="menu-icon">👥</span>
+        <span class="menu-title">Sessions & inscriptions</span>
+        <span class="menu-text">
+          Voir les formations et les participants
+        </span>
+      </button>
+
+      <button class="menu-card yellow" onclick="openDashboard()">
+        <span class="menu-icon">📊</span>
+        <span class="menu-title">Tableau de bord</span>
+        <span class="menu-text">
+          Piloter l'activité des formations courtes
+        </span>
+      </button>
+
+      <button class="menu-card turquoise" onclick="openSettings()">
+        <span class="menu-icon">⚙️</span>
+        <span class="menu-title">Paramétrage</span>
+        <span class="menu-text">
+          Formations, sessions et référentiels
+        </span>
+      </button>
+
     </section>
+
   </main>
+
+
+  <!-- =========================
+       NOUVEAU CONTACT
+  ========================== -->
+  <main id="page-new" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">NOUVELLE DEMANDE</span>
+        <h2>➕ Nouveau contact</h2>
+        <p>Quelques étapes simples pour enregistrer la demande.</p>
+      </div>
+    </section>
+
+    <div class="progress-wrap">
+      <div id="progress" class="progress-bar"></div>
+    </div>
+
+
+    <!-- ETAPE 1 -->
+    <section id="step1" class="step active">
+
+      <div class="step-number">1</div>
+
+      <h3>Qui a pris le premier contact ?</h3>
+
+      <div id="contactChoices" class="choices"></div>
+
+      <div class="navigation right">
+        <button id="next1" class="primary-btn" disabled>
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 2 -->
+    <section id="step2" class="step">
+
+      <div class="step-number">2</div>
+
+      <h3>Quelle catégorie de formation ?</h3>
+
+      <div id="domainChoices" class="domain-grid"></div>
+
+      <div class="navigation">
+        <button id="back2" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="next2" class="primary-btn" disabled>
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 3 -->
+    <section id="step3" class="step">
+
+      <div class="step-number">3</div>
+
+      <h3>Quelle formation ?</h3>
+
+      <div id="formationChoices" class="choices vertical"></div>
+
+      <div class="navigation">
+        <button id="back3" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="next3" class="primary-btn" disabled>
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 4 -->
+    <section id="step4" class="step">
+
+      <div class="step-number">4</div>
+
+      <h3>Quelle session / date ?</h3>
+
+      <div id="sessionChoices" class="choices vertical"></div>
+
+      <div class="navigation">
+        <button id="back4" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="next4" class="primary-btn" disabled>
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 5 -->
+    <section id="step5" class="step">
+
+      <div class="step-number">5</div>
+
+      <h3>Qui nous contacte ?</h3>
+
+      <div id="typeChoices" class="choices"></div>
+
+      <div id="companyFields" class="form-panel hidden-block">
+
+        <div class="field">
+          <label>Entreprise / organisme</label>
+          <input id="entreprise" type="text">
+        </div>
+
+        <div class="field">
+          <label>La demande concerne combien de salariés ?</label>
+          <input id="entrepriseSalaries" type="text">
+        </div>
+
+      </div>
+
+      <div class="navigation">
+        <button id="back5" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="next5" class="primary-btn" disabled>
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 6 -->
+    <section id="step6" class="step">
+
+      <div class="step-number">6</div>
+
+      <h3>Coordonnées du contact</h3>
+
+      <div class="form-panel">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>Nom</label>
+            <input id="nom" type="text">
+          </div>
+
+          <div class="field">
+            <label>Prénom</label>
+            <input id="prenom" type="text">
+          </div>
+
+          <div class="field">
+            <label>Téléphone</label>
+            <input id="telephone" type="tel">
+          </div>
+
+          <div class="field">
+            <label>Adresse mail</label>
+            <input id="email" type="email">
+          </div>
+
+          <div class="field full">
+            <label>Adresse</label>
+            <input id="adresse" type="text">
+          </div>
+
+          <div class="field">
+            <label>Code postal</label>
+            <input id="codePostal" type="text">
+          </div>
+
+          <div class="field">
+            <label>Ville</label>
+            <input id="ville" type="text">
+          </div>
+
+          <div class="field">
+            <label>Date de naissance</label>
+            <input id="dateNaissance" type="date">
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="navigation">
+        <button id="back6" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="next6" class="primary-btn">
+          Continuer →
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ETAPE 7 -->
+    <section id="step7" class="step">
+
+      <div class="step-number">7</div>
+
+      <h3>Suivi de la demande</h3>
+
+      <div class="form-panel">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>Profil / situation</label>
+            <select id="profil">
+              <option value=""></option>
+              <option>Demandeur d'emploi</option>
+              <option>Salarié</option>
+              <option>Agriculteur</option>
+              <option>Entreprise</option>
+              <option>Collectivité territoriale</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Chargé d'ingénierie</label>
+            <select id="chargeIngenierie">
+              <option value=""></option>
+              <option>Bruno</option>
+              <option>Sophie</option>
+              <option>Claire</option>
+              <option>Stéphanie</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Financement</label>
+            <input id="financement" type="text">
+          </div>
+
+          <div class="field">
+            <label>Statut</label>
+            <select id="statut">
+              <option>Nouveau</option>
+              <option>À rappeler</option>
+              <option>En attente</option>
+              <option>Dossier en cours</option>
+              <option>Inscrit</option>
+              <option>Abandon</option>
+              <option>Formation réalisée</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Inscription</label>
+            <select id="inscription">
+              <option value=""></option>
+              <option>Oui</option>
+              <option>Non</option>
+              <option>En attente</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Prochaine relance</label>
+            <input id="dateRelance" type="date">
+          </div>
+
+          <div class="field full">
+            <label>Besoin hors catalogue / précision</label>
+            <textarea id="besoinHorsCatalogue"></textarea>
+          </div>
+
+          <div class="field full">
+            <label>Dernière action réalisée</label>
+            <input id="derniereAction" type="text">
+          </div>
+
+          <div class="field full">
+            <label>Commentaires</label>
+            <textarea id="commentaires"></textarea>
+          </div>
+
+          <input id="dateSouhaiteeLibre" type="hidden">
+
+        </div>
+
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="navigation">
+        <button id="back7" class="secondary-btn">
+          ← Retour
+        </button>
+
+        <button id="saveDemand" class="save-btn">
+          ✓ Enregistrer la demande
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       SUIVI DES CONTACTS
+  ========================== -->
+  <main id="page-contacts" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">SUIVI</span>
+        <h2>📋 Suivi des contacts</h2>
+        <p>Retrouvez immédiatement une demande et son avancement.</p>
+      </div>
+    </section>
+
+    <section class="toolbar">
+
+      <div class="search-box">
+        🔎
+        <input
+          id="contactSearch"
+          type="text"
+          placeholder="Rechercher un nom, une entreprise, une formation..."
+        >
+      </div>
+
+      <div id="statusFilters" class="filter-row">
+
+        <button class="filter active" data-status="">
+          Tous
+        </button>
+
+        <button class="filter" data-status="Nouveau">
+          Nouveau
+        </button>
+
+        <button class="filter" data-status="À rappeler">
+          À rappeler
+        </button>
+
+        <button class="filter" data-status="En attente">
+          En attente
+        </button>
+
+        <button class="filter" data-status="Dossier en cours">
+          Dossier en cours
+        </button>
+
+        <button class="filter" data-status="Inscrit">
+          Inscrit
+        </button>
+
+      </div>
+
+    </section>
+
+    <div id="contactsCount" class="results-count"></div>
+
+    <section id="contactsList" class="contacts-list"></section>
+
+  </main>
+
+
+  <!-- =========================
+       FICHE CONTACT
+  ========================== -->
+  <main id="page-contact-detail" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="openContacts()">
+        ← Suivi des contacts
+      </button>
+
+      <div>
+        <span class="section-kicker">DOSSIER</span>
+        <h2 id="detailTitle">Fiche contact</h2>
+        <p id="detailSubtitle"></p>
+      </div>
+    </section>
+
+    <section id="contactDetail" class="detail-layout"></section>
+
+  </main>
+
+
+  <!-- =========================
+       RELANCES
+  ========================== -->
+  <main id="page-relances" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">À FAIRE</span>
+        <h2>🔔 Mes relances</h2>
+        <p>Les contacts à ne pas oublier.</p>
+      </div>
+    </section>
+
+    <div class="relance-columns">
+
+      <section class="relance-panel danger-panel">
+        <h3>🔴 En retard</h3>
+        <div id="lateRelances"></div>
+      </section>
+
+      <section class="relance-panel today-panel">
+        <h3>🟠 Aujourd'hui</h3>
+        <div id="todayRelances"></div>
+      </section>
+
+      <section class="relance-panel future-panel">
+        <h3>🟢 À venir</h3>
+        <div id="futureRelances"></div>
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       SESSIONS
+  ========================== -->
+  <main id="page-sessions" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">PLANNING</span>
+        <h2>👥 Sessions & inscriptions</h2>
+        <p>Visualisez les sessions et les personnes inscrites.</p>
+      </div>
+    </section>
+
+    <section id="sessionsDashboard" class="sessions-dashboard"></section>
+
+  </main>
+
+
+  <!-- =========================
+       TABLEAU DE BORD
+  ========================== -->
+  <main id="page-dashboard" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">PILOTAGE</span>
+        <h2>📊 Tableau de bord</h2>
+        <p>Une vision rapide de l'activité des formations courtes.</p>
+      </div>
+    </section>
+
+    <section id="statsCards" class="stats-grid"></section>
+
+    <section class="dashboard-grid">
+
+      <div class="dashboard-panel">
+        <h3>Demandes par domaine</h3>
+        <div id="domainStats"></div>
+      </div>
+
+      <div class="dashboard-panel">
+        <h3>État des dossiers</h3>
+        <div id="statusStats"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       PARAMETRAGE
+  ========================== -->
+  <main id="page-settings" class="page">
+
+    <section class="page-heading">
+      <button class="back-home" onclick="showPage('home')">
+        ← Accueil
+      </button>
+
+      <div>
+        <span class="section-kicker">PARAMÉTRAGE</span>
+        <h2>⚙️ Paramétrage</h2>
+        <p>Référentiel utilisé par le logiciel.</p>
+      </div>
+    </section>
+
+    <section class="settings-grid">
+
+      <div class="settings-card">
+        <div class="settings-icon">🎓</div>
+        <h3>Formations</h3>
+        <strong id="settingsFormationCount">0</strong>
+        <p>formations actives dans le catalogue</p>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-icon">📅</div>
+        <h3>Sessions</h3>
+        <strong id="settingsSessionCount">0</strong>
+        <p>sessions enregistrées dans Grist</p>
+      </div>
+
+      <div class="settings-card info-card">
+        <div class="settings-icon">💡</div>
+        <h3>Comment modifier ?</h3>
+        <p>
+          Les formations et les dates sont gérées dans les tables
+          FORMATIONS et SESSIONS de Grist.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Chargement -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader"></div>
+    <strong>Chargement des formations courtes...</strong>
+  </div>
+
 </div>
+
 <script src="app.js"></script>
+
 </body>
 </html>
