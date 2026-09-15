@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Formation Continue – Nouveau contact</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <div class="eyebrow">FORMATION CONTINUE</div>
+      <h1>Nouveau contact</h1>
+      <p>Quelques choix, dans l’ordre. Le logiciel adapte la suite automatiquement.</p>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+  </header>
+
+  <main>
+    <section class="step active" data-step="1">
+      <div class="stepno">1</div>
+      <h2>Qui a pris le contact ?</h2>
+      <div id="contactChoices" class="cards people"></div>
+      <div class="nav"><button class="next" disabled>Continuer →</button></div>
+    </section>
+
+    <section class="step" data-step="2">
+      <div class="stepno">2</div>
+      <h2>Quelle catégorie ?</h2>
+      <div id="domainChoices" class="cards domains"></div>
+      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
+    </section>
+
+    <section class="step" data-step="3">
+      <div class="stepno">3</div>
+      <h2>Quelle formation ?</h2>
+      <div id="formationChoices" class="cards list"></div>
+      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
+    </section>
+
+    <section class="step" data-step="4">
+      <div class="stepno">4</div>
+      <h2>Quelle date / session ?</h2>
+      <div id="sessionChoices" class="cards sessions"></div>
+      <label class="field hidden" id="otherDateWrap">Autre date souhaitée
+        <input type="date" id="otherDate">
+      </label>
+      <div class="nav"><button class="back">← Retour</button><button class="next" disabled>Continuer →</button></div>
+    </section>
+
+    <section class="step" data-step="5">
+      <div class="stepno">5</div>
+      <h2>Qui nous contacte ?</h2>
+      <div id="typeChoices" class="cards two"></div>
+      <div id="identity" class="formgrid">
+        <label>Nom *<input id="nom"></label>
+        <label>Prénom<input id="prenom"></label>
+        <label class="company">Entreprise / organisme<input id="entreprise"></label>
+        <label class="company">Démarche pour des salariés ?
+          <select id="pourSalaries"><option></option><option>Oui</option><option>Non</option></select>
+        </label>
+        <label>Téléphone<input id="telephone"></label>
+        <label>E-mail<input id="email" type="email"></label>
+        <label>Adresse<input id="adresse"></label>
+        <label>Code postal<input id="cp"></label>
+        <label>Ville<input id="ville"></label>
+        <label>Date de naissance<input id="naissance" type="date"></label>
+      </div>
+      <div class="nav"><button class="back">← Retour</button><button class="next">Continuer →</button></div>
+    </section>
+
+    <section class="step" data-step="6">
+      <div class="stepno">6</div>
+      <h2>Finaliser la demande</h2>
+      <div class="formgrid">
+        <label>Profil / situation
+          <select id="profil"><option></option><option>Demandeur d'emploi</option><option>Salarié</option><option>Agriculteur</option><option>Entreprise</option><option>Collectivité territoriale</option><option>Autre</option></select>
+        </label>
+        <label>Financement envisagé
+          <select id="financement"><option>À déterminer</option><option>Entreprise / employeur</option><option>OCAPIAT / OPCO</option><option>CPF</option><option>France Travail</option><option>Autofinancement</option><option>Collectivité / autre financeur</option><option>Autre</option></select>
+        </label>
+        <label>Chargé d'ingénierie
+          <select id="charge"><option></option><option>Bruno</option><option>Sophie</option><option>Claire</option><option>Stéphanie</option></select>
+        </label>
+        <label>Statut
+          <select id="statut"><option>Nouveau</option><option>À rappeler</option><option>En attente</option><option>Dossier en cours</option><option>Inscrit</option><option>Abandon</option><option>Formation réalisée</option></select>
+        </label>
+        <label>Date de prochaine relance<input id="relance" type="date"></label>
+        <label>Inscription
+          <select id="inscription"><option>En attente</option><option>Oui</option><option>Non</option></select>
+        </label>
+        <label class="wide">Besoin spécifique / hors catalogue<textarea id="besoin"></textarea></label>
+        <label class="wide">Commentaires<textarea id="commentaires"></textarea></label>
+      </div>
+      <div class="summary" id="summary"></div>
+      <div class="nav"><button class="back">← Retour</button><button id="save" class="save">✓ Enregistrer la demande</button></div>
+      <div id="message"></div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
